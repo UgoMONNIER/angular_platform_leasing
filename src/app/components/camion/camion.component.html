@@ -1,0 +1,21 @@
+
+
+<div class="d-flex my-4">
+    <button type="button" class="btn btn-primary btn-sm" (click) = "getCamions()"> afficher les buttons</button>
+</div>
+
+<div class="card-group ">
+    @for (camion of camions; track camion.marque) {
+    <div class="card m-3">
+        <img [src]="camion.src_img" class="card-img-top" alt="...">
+        <div class="card-body">
+            <h5 class="card-title">{{camion.marque}}</h5>
+            <p class="card-text"><small class="text-body-secondary">{{camion.marque}}</small></p>
+            <p class="card-text"><small class="text-body-secondary">{{camion.modele}}</small></p>
+        </div>
+    </div>
+    }@empty {
+    <li>There are no items.</li>
+    }
+
+</div>

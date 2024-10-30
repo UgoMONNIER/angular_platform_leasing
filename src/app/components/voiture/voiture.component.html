@@ -1,0 +1,18 @@
+<div class="card-group">
+    @for (voiture of voitures; track voiture.marque) {
+    <div class="card m-3" style="max-width: 400px;">
+        <img [src]="voiture.src_img" class="card-img-top" alt="...">
+        <div class="card-body">
+            <h5 class="card-title">{{voiture.marque}}</h5>
+            <p class="card-text"><small class="text-body-secondary">{{voiture.marque}}</small></p>
+            <p class="card-text"><small class="text-body-secondary">{{voiture.modele}}</small></p>
+            <div class="d-flex my-4">
+                <button type="button" class="btn btn-primary btn-sm" (click) = "deleteVoiture(voiture.id)"> delete</button>
+            </div>
+        </div>
+    </div>
+    }@empty {
+    <li>There are no items.</li>
+    }
+
+</div>
