@@ -1,18 +1,50 @@
-<div class="card-group">
-    @for (voiture of voitures; track voiture.marque) {
-    <div class="card m-3" style="max-width: 400px;">
-        <img [src]="voiture.src_img" class="card-img-top" alt="...">
-        <div class="card-body">
-            <h5 class="card-title">{{voiture.marque}}</h5>
-            <p class="card-text"><small class="text-body-secondary">{{voiture.marque}}</small></p>
-            <p class="card-text"><small class="text-body-secondary">{{voiture.modele}}</small></p>
-            <div class="d-flex my-4">
-                <button type="button" class="btn btn-primary btn-sm" (click) = "deleteVoiture(voiture.id)"> delete</button>
-            </div>
+<div class="container">
+    @if (hasBeenDeleted) {
+    <div class="d-flex justify-content-center align-items-center" height="100">
+        <div class="alert alert-success fs-6" role="alert" style="max-width: 200px; height: 70px;">
+            Carte supprimée avec succés.
         </div>
     </div>
-    }@empty {
-    <li>There are no items.</li>
+    }@else{
+    <div class="d-flex justify-content-center align-items-center" height="100" style="height: 100px;">
+        <h1> Voici nos voitures !</h1>
+    </div>
     }
+    <div class="card-group d-flex justify-content-around align-items-center">
+        @for (voiture of voitures; track voiture.marque) {
+        <div class="card m-1 border rounded" [ngClass]="voiture.disponibility ? 'border-success' : 'border-danger'"
+            style="max-width: 300px; max-height: 400px;">
+            <img [src]="voiture.src_img" class="card-img-top rounded object-fit-cover " alt="..."
+                style="max-height: 150px;">
+            <div class="card-body d-flex my-2 justify-content-center align-items-center flex-column">
+                <h5 class="card-title" [ngClass]="voiture.disponibility && 'text-primary'">{{voiture.disponibility ?
+                    "Disponible" : "Indisponible"}}</h5>
+                <h5 class="card-title">{{voiture.marque}}</h5>
+                <p class="card-text"><small class="text-body-secondary">Quantité : {{voiture.quantity}}</small></p>
+                <p class="card-text"><small class="text-body-secondary">{{voiture.marque}}</small></p>
+                <p class="card-text"><small class="text-body-secondary">{{voiture.modele}}</small></p>
+                <div class="d-flex my-2 justify-content-center align-items-center">
+                    <button type="button" class="btn btn-primary btn-sm" (click)="deleteVoiture(voiture.id)">
+                        delete
+                    </button>
+                    <button type="button" class="btn btn-dark btn-sm mx-2" (click)="toggleDisponibility(
+                        voiture.id,
+                        voiture.disponibility
+                    )">
+                        Switch
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        }@empty {
+        <li>There are no items.</li>
+        }
+
+    </div>
+
 
 </div>
+
+
+
