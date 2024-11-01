@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { FooterComponent } from './components/footer/footer.component';
-import { VoitureComponent } from './components/voiture/voiture.component';
+import { VoituresComponent } from './components/voitures/voitures.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { CamionComponent } from './components/camion/camion.component';
 import { VehiculeComponent } from './components/vehicule/vehicule.component';

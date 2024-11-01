@@ -1,73 +1,80 @@
-<div class="container">
-    @if (hasBeenDeleted) {
-    <div class="d-flex justify-content-center align-items-center" height="100">
-        <div class="alert alert-success fs-6" role="alert" style="max-width: 200px; height: 70px;">
-            Carte supprimée avec succés.
+<div class="container my-5">
+    <!-- Header avec image de la voiture et marque-modèle -->
+    <div class="row mb-4">
+      <div class="col-md-5">
+        <img [src]="voiture.img" alt="{{ voiture.marque }} {{ voiture.modele }}" class="img-fluid rounded shadow-sm" />
+      </div>
+      <div class="col-md-7">
+        <h1 class="display-4">{{ voiture.marque }} {{ voiture.modele }}</h1>
+        <p class="text-muted">{{ voiture.annee }} | {{ voiture.typeCarrosserie }} | {{ voiture.nombrePortes }} portes</p>
+        <p class="lead">{{ voiture.description }}</p>
+        <span class="badge bg-{{ voiture.disponibility ? 'success' : 'danger' }}">
+          {{ voiture.disponibility ? 'Disponible' : 'Non disponible' }}
+        </span>
+      </div>
+    </div>
+  
+    <!-- Détails sur la location -->
+    <div class="row mb-4">
+      <div class="col-md-6">
+        <h3 class="h5">Informations de location</h3>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <strong>Prix par jour :</strong> {{ voiture.prixLocation | currency:'EUR' }}
+          </li>
+          <li class="list-group-item">
+            <strong>Caution :</strong> {{ voiture.caution | currency:'EUR' }}
+          </li>
+          <li class="list-group-item">
+            <strong>Limite de kilométrage :</strong> {{ voiture.limiteKilometrage }} km
+          </li>
+          <li class="list-group-item">
+            <strong>Assurance incluse :</strong> 
+            <span [class]="voiture.assuranceIncluse ? 'text-success' : 'text-danger'">
+              {{ voiture.assuranceIncluse ? 'Oui' : 'Non' }}
+            </span>
+          </li>
+        </ul>
+      </div>
+      <div class="col-md-6">
+        <h3 class="h5">État et spécifications</h3>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <strong>État :</strong> {{ voiture.etat }}
+          </li>
+          <li class="list-group-item">
+            <strong>Kilométrage :</strong> {{ voiture.kilometrage | number }} km
+          </li>
+          <li class="list-group-item">
+            <strong>Quantité disponible :</strong> {{ voiture.quantity }}
+          </li>
+        </ul>
+      </div>
+    </div>
+  
+<!-- Options de la voiture -->
+<div class="row mb-4">
+    <div class="col">
+      <h3 class="h5">Options et équipements</h3>
+      <div class="row text-center">
+        <div class="col-6 col-md-3" *ngFor="let option of getOptions()">
+          <div class="p-2 border rounded bg-light">
+            <i class="bi" [ngClass]="option[1] ? 'bi-check-circle-fill text-success' : 'bi-x-circle-fill text-danger'"></i>
+            <span>{{ option[0] | titlecase }}</span>
+          </div>
         </div>
+      </div>
     </div>
-    }@else{
-    <div class="d-flex justify-content-center align-items-center" height="100" style="height: 100px;">
-        <h1> Voici nos voitures !</h1>
+  </div>
+  
+  
+    <!-- Bouton pour louer la voiture -->
+    <div class="row">
+      <div class="col text-center">
+        <button class="btn btn-primary btn-lg" [disabled]="!voiture.disponibility">
+          Louer cette voiture
+        </button>
+      </div>
     </div>
-    }
-    <div class="card-group d-flex justify-content-around align-items-center">
-        @for (voiture of voitures; track voiture.marque) {
-
-        <div class="card m-1 border rounded" [ngClass]="voiture.disponibility ? 'border-success' : 'border-danger'"
-            style="max-width: 300px; max-height: 400px;">
-            <img [src]="voiture.src_img" class="card-img-top rounded object-fit-cover " alt="..."
-                style="max-height: 150px;">
-            <div class="card-body d-flex my-2 justify-content-center align-items-center flex-column">
-                <h5 class="card-title" [ngClass]="voiture.disponibility && 'text-primary'">{{voiture.disponibility ?
-                    "Disponible" : "Indisponible"}}</h5>
-                <h5 class="card-title">{{voiture.marque}}</h5>
-                <p class="card-text"><small class="text-body-secondary">Quantité : {{voiture.quantity}}</small></p>
-                <p class="card-text"><small class="text-body-secondary">{{voiture.marque}}</small></p>
-                <p class="card-text"><small class="text-body-secondary">{{voiture.modele}}</small></p>
-                <div class="d-flex my-2 justify-content-center align-items-center">
-                    <button type="button" class="btn btn-primary btn-sm" (click)="deleteVoiture(voiture.id)">
-                        delete
-                    </button>
-                    <button type="button" class="btn btn-dark btn-sm mx-2" (click)="toggleDisponibility(
-                        voiture.id,
-                        voiture.disponibility
-                    )">
-                        Switch
-                    </button>
-                    <div class="card-body d-flex flex-column justify-content-around align-items-center"
-                        style="max-width: 400px">
-                        <button type="button" class="btn btn-dark" data-bs-toggle="modal" [attr.data-bs-target]="'#Modal' + voiture.id">
-                            Switch
-                        </button>
-                        <!-- Modal -->
-                        <div class="modal fade custom-blur-modal" [attr.id]="'Modal' + voiture.id" tabindex="-1"
-                        [attr.aria-labelledby]="'ModalLabel' + voiture.id" aria-hidden="true">
-                            <div class="modal-dialog modal-lg modal-dialog-centered">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-    
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close">
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <h5 class="card-title">{{voiture.marque}}</h5>
-    
-    
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        }@empty {
-        <li>There are no items.</li>
-        }
-
-    </div>
-
-
-</div>
+  </div>
+  
