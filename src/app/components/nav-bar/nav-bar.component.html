@@ -12,13 +12,13 @@
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" [routerLink]="['/camion']">Camion</a>
                 </li>
-                @if (isLoggedIn) {
+                @if (!isLoggedIn) {
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" [routerLink]="['/login']">Login</a>
                     </li>
                 }@else {
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" [routerLink]="['/logout']">Logout</a>
+                        <a class="nav-link active" aria-current="page" (click) = "logout()" [routerLink]="['/']">Logout</a>
                     </li>
                 }
                 <li class="nav-item">

@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Signal } from '@angular/core';
 import { VehiculeComponent } from '../vehicule/vehicule.component';
-import { ActivatedRoute } from '@angular/router'; // Import d'ActivatedRoute
+import { ActivatedRoute } from '@angular/router'; 
 import { VoituresService } from '../../services/voitures.service';
 import { CommonModule } from '@angular/common';
+import { signal } from '@angular/core';
 import { TitleCasePipe, DecimalPipe, CurrencyPipe } from '@angular/common'; 
 
 
@@ -14,23 +15,29 @@ import { TitleCasePipe, DecimalPipe, CurrencyPipe } from '@angular/common';
   styleUrls: ['./voiture.component.css']
 })
 export class VoitureComponent extends VehiculeComponent implements OnInit {
-  nombrePortes: number; // Propriété spécifique aux voitures
-  typeCarrosserie: string; // Propriété spécifique aux voitures (ex: berline, coupé)
-  voiture: any; // Propriété pour stocker les détails de la voiture
+  nombrePortes: number;
+  typeCarrosserie: string; 
+  voiture: any;
+  numberStars = signal(0);
+  indexes = [1,2,3,4,5];
+
+
+  filledImageUrl: string = 'star-filled.png'; // ou 'public/star-filled.png'
+
+  emptyImageUrl: string = 'star-empty.png'; // ou 'public/star-empty.png'
+  
 
   constructor(
     private serviceVoitures: VoituresService,
-    private route: ActivatedRoute // Injection d'ActivatedRoute
+    private route: ActivatedRoute 
   ) {
-    super(); // Appelle le constructeur de la classe parente
+    super(); 
 
-    this.nombrePortes = 0; // Valeur par défaut
-    this.typeCarrosserie = 'berline'; // Valeur par défaut
-
+    this.nombrePortes = 0; 
+    this.typeCarrosserie = 'berline'; 
   }
 
   ngOnInit(): void {
-    // Récupération de l'ID depuis les paramètres de la route
     const id = this.route.snapshot.paramMap.get('id');
 
     if (id) {

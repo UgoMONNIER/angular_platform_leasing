@@ -42,11 +42,10 @@ export class LoginComponent {
         } else {
           console.log('User login successful:', response);
           if (response.id) {
-            // Mettre à jour le statut de l'utilisateur
             this.authService.updateUserStatus(response.id, 'connected').subscribe({
               next: (updatedUser) => {
                 console.log('User status updated:', updatedUser);
-                this.router.navigate(['/dashboard']); // Redirection vers le dashboard
+                this.router.navigate(['/voitures']); 
               },
               error: (err) => {
                 console.error('Error updating user status:', err);

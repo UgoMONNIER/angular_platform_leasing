@@ -1,80 +1,112 @@
-<div class="container my-5">
-    <!-- Header avec image de la voiture et marque-modèle -->
-    <div class="row mb-4">
-      <div class="col-md-5">
-        <img [src]="voiture.img" alt="{{ voiture.marque }} {{ voiture.modele }}" class="img-fluid rounded shadow-sm" />
-      </div>
-      <div class="col-md-7">
-        <h1 class="display-4">{{ voiture.marque }} {{ voiture.modele }}</h1>
-        <p class="text-muted">{{ voiture.annee }} | {{ voiture.typeCarrosserie }} | {{ voiture.nombrePortes }} portes</p>
-        <p class="lead">{{ voiture.description }}</p>
-        <span class="badge bg-{{ voiture.disponibility ? 'success' : 'danger' }}">
-          {{ voiture.disponibility ? 'Disponible' : 'Non disponible' }}
-        </span>
-      </div>
+<div class="container my-5" *ngIf="voiture">
+  <!-- Header avec image de la voiture et marque-modèle -->
+  <div class="row mb-4">
+    <div class="col-md-5">
+      <img
+        [src]="voiture.img"
+        alt="{{ voiture.marque }} {{ voiture.modele }}"
+        class="img-fluid rounded shadow-sm"
+      />
     </div>
-  
-    <!-- Détails sur la location -->
-    <div class="row mb-4">
-      <div class="col-md-6">
-        <h3 class="h5">Informations de location</h3>
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item">
-            <strong>Prix par jour :</strong> {{ voiture.prixLocation | currency:'EUR' }}
-          </li>
-          <li class="list-group-item">
-            <strong>Caution :</strong> {{ voiture.caution | currency:'EUR' }}
-          </li>
-          <li class="list-group-item">
-            <strong>Limite de kilométrage :</strong> {{ voiture.limiteKilometrage }} km
-          </li>
-          <li class="list-group-item">
-            <strong>Assurance incluse :</strong> 
-            <span [class]="voiture.assuranceIncluse ? 'text-success' : 'text-danger'">
-              {{ voiture.assuranceIncluse ? 'Oui' : 'Non' }}
-            </span>
-          </li>
-        </ul>
-      </div>
-      <div class="col-md-6">
-        <h3 class="h5">État et spécifications</h3>
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item">
-            <strong>État :</strong> {{ voiture.etat }}
-          </li>
-          <li class="list-group-item">
-            <strong>Kilométrage :</strong> {{ voiture.kilometrage | number }} km
-          </li>
-          <li class="list-group-item">
-            <strong>Quantité disponible :</strong> {{ voiture.quantity }}
-          </li>
-        </ul>
-      </div>
+    <div class="col-md-7">
+      <h1 class="display-4">{{ voiture.marque }} {{ voiture.modele }}</h1>
+      <p class="text-muted">
+        {{ voiture.annee }} | {{ voiture.typeCarrosserie }} |
+        {{ voiture.nombrePortes }} portes
+      </p>
+      <p class="lead">{{ voiture.description }}</p>
+      <span class="badge bg-{{ voiture.disponibility ? 'success' : 'danger' }}">
+        {{ voiture.disponibility ? "Disponible" : "Non disponible" }}
+      </span>
     </div>
-  
-<!-- Options de la voiture -->
-<div class="row mb-4">
+  </div>
+
+  <!-- Détails sur la location -->
+  <div class="row mb-4">
+    <div class="col-md-6">
+      <h3 class="h5">Informations de location</h3>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+          <strong>Prix par jour :</strong>
+          {{ voiture.prixLocation | currency : "EUR" }}
+        </li>
+        <li class="list-group-item">
+          <strong>Caution :</strong> {{ voiture.caution | currency : "EUR" }}
+        </li>
+        <li class="list-group-item">
+          <strong>Limite de kilométrage :</strong>
+          {{ voiture.limiteKilometrage }} km
+        </li>
+        <li class="list-group-item">
+          <strong>Assurance incluse :</strong>
+          <span
+            [class]="voiture.assuranceIncluse ? 'text-success' : 'text-danger'"
+          >
+            {{ voiture.assuranceIncluse ? "Oui" : "Non" }}
+          </span>
+        </li>
+      </ul>
+    </div>
+    <div class="col-md-6">
+      <h3 class="h5">État et spécifications</h3>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+          <strong>État :</strong> {{ voiture.etat }}
+        </li>
+        <li class="list-group-item">
+          <strong>Kilométrage :</strong> {{ voiture.kilometrage | number }} km
+        </li>
+        <li class="list-group-item">
+          <strong>Quantité disponible :</strong> {{ voiture.quantity }}
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Options de la voiture -->
+  <div class="row mb-4">
     <div class="col">
       <h3 class="h5">Options et équipements</h3>
       <div class="row text-center">
         <div class="col-6 col-md-3" *ngFor="let option of getOptions()">
           <div class="p-2 border rounded bg-light">
-            <i class="bi" [ngClass]="option[1] ? 'bi-check-circle-fill text-success' : 'bi-x-circle-fill text-danger'"></i>
+            <i
+              class="bi"
+              [ngClass]="
+                option[1]
+                  ? 'bi-check-circle-fill text-success'
+                  : 'bi-x-circle-fill text-danger'
+              "
+            ></i>
             <span>{{ option[0] | titlecase }}</span>
           </div>
         </div>
       </div>
     </div>
   </div>
-  
-  
-    <!-- Bouton pour louer la voiture -->
-    <div class="row">
-      <div class="col text-center">
-        <button class="btn btn-primary btn-lg" [disabled]="!voiture.disponibility">
-          Louer cette voiture
-        </button>
-      </div>
+
+  <div class="row my-3">
+    <div class="col text-center">
+      <img
+        class="star"
+        *ngFor="let index of indexes"
+        [src]="numberStars() > index ? filledImageUrl : emptyImageUrl"
+        (click)="numberStars.set(index + 1)"
+        alt="star"
+        width="20"
+      />
     </div>
   </div>
-  
+
+  <!-- Bouton pour louer la voiture -->
+  <div class="row">
+    <div class="col text-center">
+      <button
+        class="btn btn-primary btn-lg"
+        [disabled]="!voiture.disponibility"
+      >
+        Louer cette voiture
+      </button>
+    </div>
+  </div>
+</div>

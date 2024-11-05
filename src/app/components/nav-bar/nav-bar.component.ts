@@ -24,8 +24,8 @@ export class NavBarComponent {
   }
 
   logout() {
-    // Appeler la fonction de déconnexion avec l'id utilisateur actuel
-    // this.authService.logout(currentUser.id);
+    this.authService.logout();
+    this.isLoggedIn = false;
   }
 
 
